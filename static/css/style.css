@@ -1,0 +1,117 @@
+/* Custom animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Apply animations to main content */
+main > div {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.grid > div {
+    animation: slideUp 0.5s ease-out;
+}
+
+/* Custom hover effects */
+.hover-glow:hover {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3b82f6;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2563eb;
+}
+
+/* Custom button styles */
+.btn-primary {
+    @apply bg-blue-500 text-white px-6 py-3 rounded-lg transition-all duration-300;
+}
+
+.btn-primary:hover {
+    @apply bg-blue-600 transform scale-105;
+}
+
+.btn-secondary {
+    @apply bg-yellow-500 text-white px-6 py-3 rounded-lg transition-all duration-300;
+}
+
+.btn-secondary:hover {
+    @apply bg-yellow-600 transform scale-105;
+}
+
+/* Card styles */
+.card {
+    @apply bg-gray-800 rounded-lg p-6 transition-all duration-300;
+}
+
+.card:hover {
+    @apply transform scale-105 shadow-lg;
+}
+
+/* Form styles */
+.form-input {
+    background-color: #1a1a1a !important;
+    color: #ffffff !important;
+    border: 1px solid #4a5568 !important;
+    padding: 0.5rem 1rem !important;
+    border-radius: 0.5rem !important;
+    width: 100% !important;
+}
+
+.form-input:focus {
+    outline: none !important;
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+.form-input::placeholder {
+    color: #718096 !important;
+}
+
+select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.form-label {
+    @apply text-gray-400 mb-2 block;
+}
+
+/* Loading animation */
+.loading {
+    @apply animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .container {
+        @apply px-4;
+    }
+    
+    .grid {
+        @apply gap-4;
+    }
+} 

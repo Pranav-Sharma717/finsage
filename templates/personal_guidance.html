@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Guidance - FinSage</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-400">FinSage</h1>
+            <div class="space-x-4">
+                <a href="/" class="text-blue-400 hover:text-blue-300">Home</a>
+                <a href="/budget-summary" class="text-blue-400 hover:text-blue-300">Budget Summary</a>
+                <a href="/personal-guidance" class="text-blue-400 hover:text-blue-300">Personal Guidance</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-center">Personal Financial Guidance</h2>
+            
+            <div class="bg-gray-800 rounded-lg p-6 mb-8">
+                <form id="guidance-form" class="space-y-6">
+                    <div>
+                        <label for="income" class="form-label">Annual Income (₹)</label>
+                        <input type="number" id="income" name="income" required
+                               class="form-input" placeholder="Enter your annual income">
+                    </div>
+                    
+                    <div>
+                        <label for="profession" class="form-label">Profession</label>
+                        <select id="profession" name="profession" required class="form-input">
+                            <option value="">Select your profession</option>
+                            <option value="salaried">Salaried Employee</option>
+                            <option value="business">Business Owner</option>
+                            <option value="freelancer">Freelancer</option>
+                            <option value="investor">Investor</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full">
+                        Get Personalized Guidance
+                    </button>
+                </form>
+            </div>
+            
+            <div id="recommendations" class="space-y-6">
+                <!-- Recommendations will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 mt-16 py-8">
+        <div class="container mx-auto px-4 text-center text-gray-400">
+            <p>&copy; 2024 FinSage. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Summary - FinSage</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-400">FinSage</h1>
+            <div class="space-x-4">
+                <a href="/" class="text-blue-400 hover:text-blue-300">Home</a>
+                <a href="/budget-summary" class="text-blue-400 hover:text-blue-300">Budget Summary</a>
+                <a href="/personal-guidance" class="text-blue-400 hover:text-blue-300">Personal Guidance</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-8 text-center">Budget Summary 2024</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gray-800 rounded-lg p-6">
+                    <h3 class="text-xl font-bold text-blue-400 mb-4">Key Highlights</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 mr-2">•</span>
+                            <span>GDP growth target set at 7.5%</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 mr-2">•</span>
+                            <span>Fiscal deficit target at 5.1% of GDP</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 mr-2">•</span>
+                            <span>Increased focus on infrastructure development</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-gray-800 rounded-lg p-6">
+                    <h3 class="text-xl font-bold text-blue-400 mb-4">Tax Reforms</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 mr-2">•</span>
+                            <span>No changes in income tax slabs</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 mr-2">•</span>
+                            <span>Corporate tax rate remains at 25%</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-yellow-400 mr-2">•</span>
+                            <span>New tax benefits for startups</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="bg-gray-800 rounded-lg p-6 mb-8">
+                <h3 class="text-xl font-bold text-blue-400 mb-4">Sector-wise Analysis</h3>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-2">Infrastructure</h4>
+                        <p class="text-gray-400">Major allocation for road and rail infrastructure development</p>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-2">Healthcare</h4>
+                        <p class="text-gray-400">Increased budget for healthcare infrastructure and research</p>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-semibold mb-2">Education</h4>
+                        <p class="text-gray-400">Focus on digital education and skill development</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gray-800 rounded-lg p-6">
+                <h3 class="text-xl font-bold text-blue-400 mb-4">Impact on Common Citizens</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <span class="text-yellow-400 mr-2">•</span>
+                        <div>
+                            <h4 class="font-semibold">Middle Class</h4>
+                            <p class="text-gray-400">Stable tax regime with focus on affordable housing</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-yellow-400 mr-2">•</span>
+                        <div>
+                            <h4 class="font-semibold">Small Businesses</h4>
+                            <p class="text-gray-400">Enhanced credit availability and simplified compliance</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-yellow-400 mr-2">•</span>
+                        <div>
+                            <h4 class="font-semibold">Rural Population</h4>
+                            <p class="text-gray-400">Increased allocation for agriculture and rural development</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 mt-16 py-8">
+        <div class="container mx-auto px-4 text-center text-gray-400">
+            <p>&copy; 2024 FinSage. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 

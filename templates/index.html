@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinSage - Your Financial Guide</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-400">FinSage</h1>
+            <div class="space-x-4">
+                <a href="/" class="text-blue-400 hover:text-blue-300">Home</a>
+                <a href="/budget-summary" class="text-blue-400 hover:text-blue-300">Budget Summary</a>
+                <a href="/personal-guidance" class="text-blue-400 hover:text-blue-300">Personal Guidance</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold mb-4">Your Personalized Financial Assistant</h2>
+            <p class="text-gray-400 text-xl">Making financial decisions easier with AI-powered insights</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div class="bg-gray-800 rounded-lg p-6 transform hover:scale-105 transition-transform duration-300">
+                <h3 class="text-2xl font-bold text-blue-400 mb-4">Budget Summary</h3>
+                <p class="text-gray-400 mb-6">Get simplified insights from the latest government budget, powered by AI.</p>
+                <a href="/budget-summary" class="inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                    View Summary
+                </a>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg p-6 transform hover:scale-105 transition-transform duration-300">
+                <h3 class="text-2xl font-bold text-yellow-400 mb-4">Personal Guidance</h3>
+                <p class="text-gray-400 mb-6">Receive tailored financial advice based on your income and profession.</p>
+                <a href="/personal-guidance" class="inline-block bg-yellow-500 text-white px-6 py-3 rounded-lg hover:bg-yellow-600 transition-colors">
+                    Get Guidance
+                </a>
+            </div>
+        </div>
+
+        <div class="mt-16 text-center">
+            <h3 class="text-2xl font-bold mb-6">Why Choose FinSage?</h3>
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="text-blue-400 text-4xl mb-4">📊</div>
+                    <h4 class="text-xl font-bold mb-2">Smart Analysis</h4>
+                    <p class="text-gray-400">AI-powered insights from complex financial data</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="text-blue-400 text-4xl mb-4">🎯</div>
+                    <h4 class="text-xl font-bold mb-2">Personalized</h4>
+                    <p class="text-gray-400">Tailored recommendations for your situation</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg">
+                    <div class="text-blue-400 text-4xl mb-4">🔒</div>
+                    <h4 class="text-xl font-bold mb-2">Secure</h4>
+                    <p class="text-gray-400">Your data is always protected</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 mt-16 py-8">
+        <div class="container mx-auto px-4 text-center text-gray-400">
+            <p>&copy; 2024 FinSage. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 
