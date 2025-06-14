@@ -21,88 +21,60 @@
 
     <main class="container mx-auto px-4 py-8">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold mb-8 text-center">Budget Summary 2024</h2>
+            <h2 class="text-3xl font-bold mb-8 text-center">Budget Analysis</h2>
             
-            <div class="grid md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-gray-800 rounded-lg p-6">
-                    <h3 class="text-xl font-bold text-blue-400 mb-4">Key Highlights</h3>
-                    <ul class="space-y-3">
-                        <li class="flex items-start">
-                            <span class="text-yellow-400 mr-2">•</span>
-                            <span>GDP growth target set at 7.5%</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-yellow-400 mr-2">•</span>
-                            <span>Fiscal deficit target at 5.1% of GDP</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-yellow-400 mr-2">•</span>
-                            <span>Increased focus on infrastructure development</span>
-                        </li>
-                    </ul>
+            <!-- PDF Upload Form -->
+            <div class="bg-gray-800 rounded-lg p-6 mb-8">
+                <form id="budget-form" class="space-y-4" enctype="multipart/form-data">
+                    <div>
+                        <label for="budget-file" class="block text-sm font-medium text-gray-300 mb-2">
+                            Upload Budget PDF
+                        </label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-700 border-dashed rounded-lg">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-400">
+                                    <label for="budget-file" class="relative cursor-pointer bg-gray-700 rounded-md font-medium text-blue-400 hover:text-blue-300 focus-within:outline-none">
+                                        <span>Upload a file</span>
+                                        <input id="budget-file" name="budget_file" type="file" class="sr-only" accept=".pdf">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">PDF up to 16MB</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit"
+                            class="w-full bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+                        Analyze Budget
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Loading Indicator -->
+            <div id="loading" class="hidden">
+                <div class="flex justify-center items-center space-x-2">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                    <span class="text-gray-400">Analyzing budget...</span>
+                </div>
+            </div>
+            
+            <!-- Analysis Results -->
+            <div id="analysis-results" class="space-y-8">
+                <!-- Overall Impact Summary -->
+                <div id="impact-section" class="hidden">
+                    <h3 class="text-2xl font-bold text-blue-400 mb-4">Overall Impact</h3>
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <p id="impact-summary" class="text-gray-300"></p>
+                    </div>
                 </div>
                 
-                <div class="bg-gray-800 rounded-lg p-6">
-                    <h3 class="text-xl font-bold text-blue-400 mb-4">Tax Reforms</h3>
-                    <ul class="space-y-3">
-                        <li class="flex items-start">
-                            <span class="text-yellow-400 mr-2">•</span>
-                            <span>No changes in income tax slabs</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-yellow-400 mr-2">•</span>
-                            <span>Corporate tax rate remains at 25%</span>
-                        </li>
-                        <li class="flex items-start">
-                            <span class="text-yellow-400 mr-2">•</span>
-                            <span>New tax benefits for startups</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="bg-gray-800 rounded-lg p-6 mb-8">
-                <h3 class="text-xl font-bold text-blue-400 mb-4">Sector-wise Analysis</h3>
-                <div class="space-y-6">
-                    <div>
-                        <h4 class="text-lg font-semibold mb-2">Infrastructure</h4>
-                        <p class="text-gray-400">Major allocation for road and rail infrastructure development</p>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-semibold mb-2">Healthcare</h4>
-                        <p class="text-gray-400">Increased budget for healthcare infrastructure and research</p>
-                    </div>
-                    <div>
-                        <h4 class="text-lg font-semibold mb-2">Education</h4>
-                        <p class="text-gray-400">Focus on digital education and skill development</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-gray-800 rounded-lg p-6">
-                <h3 class="text-xl font-bold text-blue-400 mb-4">Impact on Common Citizens</h3>
-                <div class="space-y-4">
-                    <div class="flex items-start">
-                        <span class="text-yellow-400 mr-2">•</span>
-                        <div>
-                            <h4 class="font-semibold">Middle Class</h4>
-                            <p class="text-gray-400">Stable tax regime with focus on affordable housing</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <span class="text-yellow-400 mr-2">•</span>
-                        <div>
-                            <h4 class="font-semibold">Small Businesses</h4>
-                            <p class="text-gray-400">Enhanced credit availability and simplified compliance</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start">
-                        <span class="text-yellow-400 mr-2">•</span>
-                        <div>
-                            <h4 class="font-semibold">Rural Population</h4>
-                            <p class="text-gray-400">Increased allocation for agriculture and rural development</p>
-                        </div>
-                    </div>
+                <!-- Sector-wise Analysis -->
+                <div id="sectors-section" class="hidden">
+                    <h3 class="text-2xl font-bold text-blue-400 mb-4">Sector-wise Analysis</h3>
+                    <div class="grid md:grid-cols-2 gap-6" id="sectors-grid"></div>
                 </div>
             </div>
         </div>
@@ -114,6 +86,134 @@
         </div>
     </footer>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const budgetForm = document.getElementById('budget-form');
+            const loading = document.getElementById('loading');
+            const analysisResults = document.getElementById('analysis-results');
+            
+            // Handle file drag and drop
+            const dropZone = document.querySelector('.border-dashed');
+            const fileInput = document.getElementById('budget-file');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight(e) {
+                dropZone.classList.add('border-blue-500');
+            }
+            
+            function unhighlight(e) {
+                dropZone.classList.remove('border-blue-500');
+            }
+            
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                fileInput.files = files;
+            }
+            
+            budgetForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Show loading state
+                loading.classList.remove('hidden');
+                analysisResults.classList.add('hidden');
+                
+                try {
+                    const formData = new FormData(budgetForm);
+                    const response = await fetch('/budget-summary', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        displayAnalysis(data);
+                    } else {
+                        showError(data.error || 'An error occurred during analysis');
+                    }
+                } catch (error) {
+                    showError('Failed to analyze budget');
+                } finally {
+                    loading.classList.add('hidden');
+                }
+            });
+            
+            function displayAnalysis(data) {
+                // Display overall impact
+                const impactSection = document.getElementById('impact-section');
+                const impactSummary = document.getElementById('impact-summary');
+                impactSummary.textContent = data.impact_summary;
+                impactSection.classList.remove('hidden');
+                
+                // Display sector analysis
+                const sectorsSection = document.getElementById('sectors-section');
+                const sectorsGrid = document.getElementById('sectors-grid');
+                sectorsGrid.innerHTML = '';
+                
+                Object.entries(data.sector_analysis).forEach(([sector, info]) => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-gray-800 rounded-lg p-6';
+                    card.innerHTML = `
+                        <h4 class="text-xl font-bold text-blue-400 mb-2">${formatSector(sector)}</h4>
+                        <p class="text-gray-300 mb-4">${info.summary}</p>
+                        ${info.key_numbers.length > 0 ? `
+                            <div class="mt-4">
+                                <h5 class="text-sm font-medium text-gray-400 mb-2">Key Numbers:</h5>
+                                <div class="flex flex-wrap gap-2">
+                                    ${info.key_numbers.map(num => `
+                                        <span class="px-2 py-1 bg-gray-700 rounded text-sm">${num}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    `;
+                    sectorsGrid.appendChild(card);
+                });
+                sectorsSection.classList.remove('hidden');
+                
+                // Show results
+                analysisResults.classList.remove('hidden');
+            }
+            
+            function formatSector(sector) {
+                return sector
+                    .split('_')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ');
+            }
+            
+            function showError(message) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'bg-red-500 text-white p-4 rounded-lg mb-4';
+                errorDiv.textContent = message;
+                
+                const container = document.querySelector('.container');
+                container.insertBefore(errorDiv, container.firstChild);
+                
+                setTimeout(() => {
+                    errorDiv.remove();
+                }, 5000);
+            }
+        });
+    </script>
 </body>
 </html> 

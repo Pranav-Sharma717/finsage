@@ -2,7 +2,7 @@ Flask==2.3.3
 Flask-SQLAlchemy==3.1.1
 mysql-connector-python==8.1.0
 transformers==4.35.0
-torch==2.1.0
+torch==2.1.0 --index-url https://download.pytorch.org/whl/cpu
 python-dotenv==1.0.0
 requests==2.31.0
 numpy==1.24.3
@@ -11,4 +11,6 @@ scikit-learn==1.3.1
 PyPDF2==3.0.1
 beautifulsoup4==4.12.2
 gunicorn==21.2.0
-Werkzeug==2.3.7 
+Werkzeug==2.3.7
+psutil==5.9.5  # For system resource monitoring
+tqdm==4.66.1  # For progress bars during training 

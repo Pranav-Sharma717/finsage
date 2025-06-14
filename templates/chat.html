@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Chat - FinSage{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold mb-8 text-center">Budget Chat Assistant</h2>
+        
+        <!-- Chat Interface -->
+        <div class="bg-gray-800 rounded-lg p-6 mb-8">
+            <div id="chat-messages" class="space-y-4 mb-6 h-96 overflow-y-auto">
+                <!-- Messages will be dynamically inserted here -->
+            </div>
+            
+            <form id="chat-form" class="flex space-x-4">
+                <input type="text" id="user-input" name="message"
+                       class="flex-1 px-4 py-2 bg-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                       placeholder="Ask a question about the budget...">
+                <button type="submit" 
+                        class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                    Send
+                </button>
+            </form>
+        </div>
+        
+        <!-- Suggested Questions -->
+        <div class="bg-gray-800 rounded-lg p-6">
+            <h3 class="text-xl font-bold text-blue-400 mb-4">Suggested Questions</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button class="suggested-question bg-gray-700 p-4 rounded-lg text-left hover:bg-gray-600 transition-colors">
+                    What are the key changes in income tax?
+                </button>
+                <button class="suggested-question bg-gray-700 p-4 rounded-lg text-left hover:bg-gray-600 transition-colors">
+                    How does the budget support farmers?
+                </button>
+                <button class="suggested-question bg-gray-700 p-4 rounded-lg text-left hover:bg-gray-600 transition-colors">
+                    What are the new healthcare initiatives?
+                </button>
+                <button class="suggested-question bg-gray-700 p-4 rounded-lg text-left hover:bg-gray-600 transition-colors">
+                    How is education being supported in this budget?
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const chatMessages = document.getElementById('chat-messages');
+    const chatForm = document.getElementById('chat-form');
+    const userInput = document.getElementById('user-input');
+    const suggestedQuestions = document.querySelectorAll('.suggested-question');
+
+    // Add welcome message
+    addMessage('assistant', 'Hello! I\'m your budget assistant. Ask me anything about the budget, and I\'ll help you understand it better.');
+
+    // Handle form submission
+    chatForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const message = userInput.value.trim();
+        if (!message) return;
+
+        // Add user message
+        addMessage('user', message);
+        userInput.value = '';
+
+        try {
+            // Show typing indicator
+            const typingIndicator = addTypingIndicator();
+
+            // Get response from server
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message })
+            });
+
+            const data = await response.json();
+
+            // Remove typing indicator
+            typingIndicator.remove();
+
+            // Add assistant response
+            addMessage('assistant', data.response);
+            
+        } catch (error) {
+            console.error('Error:', error);
+            addMessage('assistant', 'Sorry, I encountered an error. Please try again.');
+        }
+    });
+
+    // Handle suggested questions
+    suggestedQuestions.forEach(button => {
+        button.addEventListener('click', () => {
+            userInput.value = button.textContent.trim();
+            chatForm.dispatchEvent(new Event('submit'));
+        });
+    });
+
+    function addMessage(role, content) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+        
+        const bubble = document.createElement('div');
+        bubble.className = `max-w-[80%] p-4 rounded-lg ${
+            role === 'user' 
+                ? 'bg-blue-500 text-white' 
+                : 'bg-gray-700 text-white'
+        }`;
+        bubble.textContent = content;
+        
+        messageDiv.appendChild(bubble);
+        chatMessages.appendChild(messageDiv);
+        
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    function addTypingIndicator() {
+        const indicator = document.createElement('div');
+        indicator.className = 'flex justify-start';
+        indicator.innerHTML = `
+            <div class="bg-gray-700 p-4 rounded-lg">
+                <div class="flex space-x-2">
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    <div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                </div>
+            </div>
+        `;
+        chatMessages.appendChild(indicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return indicator;
+    }
+});
+</script>
+{% endblock %} 

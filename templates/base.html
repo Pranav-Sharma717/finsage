@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FinSage - Your Financial Guide{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-blue-400">FinSage</h1>
+            <div class="space-x-4">
+                <a href="/" class="text-blue-400 hover:text-blue-300 transition-colors">Home</a>
+                <a href="/budget-summary" class="text-blue-400 hover:text-blue-300 transition-colors">Budget Summary</a>
+                <a href="/chat" class="text-blue-400 hover:text-blue-300 transition-colors">Chat</a>
+                <a href="/personal-guidance" class="text-blue-400 hover:text-blue-300 transition-colors">Personal Guidance</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 mt-16 py-8">
+        <div class="container mx-auto px-4 text-center text-gray-400">
+            <p>&copy; 2024 FinSage. All rights reserved.</p>
+        </div>
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html> 

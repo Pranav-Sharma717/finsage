@@ -2,11 +2,24 @@ from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
+from models.budget_summarizer import BudgetSummarizer
+from models.budget_chatbot import BudgetChatbot
+from utils.text_processor import TextProcessor
+from werkzeug.utils import secure_filename
 
 # Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
+
+# Configure upload folder
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'pdf'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+
+# Create upload folder if it doesn't exist
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Database configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/finsage?charset=utf8mb4'
@@ -23,6 +36,13 @@ except Exception as e:
     print(f"Error connecting to database: {e}")
     raise
 
+# Initialize models
+budget_summarizer = BudgetSummarizer()
+budget_chatbot = BudgetChatbot()
+
+# Initialize ML models
+text_processor = TextProcessor()
+
 # Models
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -37,15 +57,75 @@ class Recommendation(db.Model):
     suggestion = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 # Routes
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route('/budget-summary')
+@app.route('/budget-summary', methods=['GET', 'POST'])
 def budget_summary():
-    # TODO: Implement budget summary logic
+    if request.method == 'POST':
+        try:
+            # Check if file was uploaded
+            if 'budget_file' not in request.files:
+                return jsonify({'error': 'No file uploaded'}), 400
+            
+            file = request.files['budget_file']
+            if file.filename == '':
+                return jsonify({'error': 'No file selected'}), 400
+            
+            if not allowed_file(file.filename):
+                return jsonify({'error': 'Only PDF files are allowed'}), 400
+            
+            # Save the file
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            
+            # Analyze the budget
+            sector_analysis = budget_summarizer.analyze_budget(filepath)
+            
+            if 'error' in sector_analysis:
+                return jsonify({'error': sector_analysis['error']}), 400
+            
+            # Get overall impact summary
+            impact_summary = budget_summarizer.get_impact_summary(sector_analysis)
+            
+            # Clean up the file
+            os.remove(filepath)
+            
+            return jsonify({
+                'sector_analysis': sector_analysis,
+                'impact_summary': impact_summary
+            })
+            
+        except Exception as e:
+            # Clean up file if it exists
+            if 'filepath' in locals() and os.path.exists(filepath):
+                os.remove(filepath)
+            return jsonify({'error': str(e)}), 500
+    
     return render_template('budget_summary.html')
+
+@app.route('/chat', methods=['GET', 'POST'])
+def chat():
+    if request.method == 'POST':
+        try:
+            data = request.get_json()
+            if not data or 'message' not in data:
+                return jsonify({'error': 'No message provided'}), 400
+            
+            # Get response from chatbot
+            response = budget_chatbot.get_response(data['message'])
+            return jsonify({'response': response})
+            
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    
+    return render_template('chat.html')
 
 @app.route('/personal-guidance', methods=['GET', 'POST'])
 def personal_guidance():
@@ -54,7 +134,6 @@ def personal_guidance():
             income = float(request.form.get('income'))
             profession = request.form.get('profession')
             
-            # TODO: Implement recommendation logic
             recommendations = {
                 'tax_slab': calculate_tax_slab(income),
                 'financial_planning': generate_financial_plan(income, profession),
@@ -69,16 +148,33 @@ def personal_guidance():
 
 # Helper functions
 def calculate_tax_slab(income):
-    # TODO: Implement tax slab calculation
-    return "Tax slab calculation pending"
+    """Calculate tax slab and deductions."""
+    if income <= 500000:
+        return "You fall under the 0% tax slab. Consider investing in tax-saving instruments for future benefits."
+    elif income <= 1000000:
+        return "You fall under the 20% tax slab. Maximize your 80C deductions and consider tax-saving investments."
+    else:
+        return "You fall under the 30% tax slab. Focus on tax-efficient investments and proper tax planning."
 
 def generate_financial_plan(income, profession):
-    # TODO: Implement financial planning logic
-    return "Financial planning suggestions pending"
+    """Generate personalized financial planning advice."""
+    base_plan = "Based on your income and profession, here's a suggested financial plan:\n"
+    
+    if profession == 'salaried':
+        return base_plan + "1. Emergency fund: 6 months of expenses\n2. Health insurance: 5-7% of income\n3. Term insurance: 10-12x annual income\n4. Retirement planning: 15-20% of income"
+    elif profession == 'business':
+        return base_plan + "1. Business emergency fund: 12 months of expenses\n2. Health insurance: 7-10% of income\n3. Term insurance: 15-20x annual income\n4. Retirement planning: 20-25% of income"
+    else:
+        return base_plan + "1. Emergency fund: 8-10 months of expenses\n2. Health insurance: 6-8% of income\n3. Term insurance: 12-15x annual income\n4. Retirement planning: 18-22% of income"
 
 def suggest_asset_allocation(income):
-    # TODO: Implement asset allocation logic
-    return "Asset allocation suggestions pending"
+    """Suggest asset allocation based on income."""
+    if income <= 500000:
+        return "Conservative allocation:\n- 40% Fixed Income\n- 30% Equity\n- 20% Gold\n- 10% Cash"
+    elif income <= 1000000:
+        return "Moderate allocation:\n- 30% Fixed Income\n- 40% Equity\n- 20% Gold\n- 10% Cash"
+    else:
+        return "Aggressive allocation:\n- 20% Fixed Income\n- 50% Equity\n- 20% Gold\n- 10% Cash"
 
 if __name__ == '__main__':
     with app.app_context():
